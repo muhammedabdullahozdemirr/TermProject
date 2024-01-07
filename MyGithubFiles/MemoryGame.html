@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Game</title>
+<style>
+ body {
+  font-family: Arial, sans-serif;
+  position: relative;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  
+}
+
+nav {
+    background-color: #000000;
+    color: #000000;
+    position: -webkit-sticky; /* Safari */
+    position: relative;
+    top: 0;
+    border: 1px solid;  
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden; 
+}
+nav li {
+    float: left;
+}
+nav a {
+    display: block;
+    color: whitesmoke;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px 10px;
+    text-decoration: none;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;  
+}
+nav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+    h1{
+        font-family: Copperplate, Papyrus, fantasy;
+        font-size: 70px;
+        width: 100%;
+        height: 100px;
+        background-color: rgb(0, 0, 0);
+        color: #FE98A5;
+        text-align: center;
+        padding-bottom: 40px;
+        border: 3px solid #FE98A5;
+        border-radius: 10px;
+    
+    }
+    .memoryImage{
+            width: 100px;
+            height: 100px;
+            position: relative;
+            top: 20px;
+            right: 150px;
+            border-radius: 50px;
+    }
+    h2{
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 30px;
+        color: rgb(0, 114, 40);
+        text-shadow: 1px 1px  rgb(208, 193, 193); 
+        position: relative;
+        left: 250px;
+        animation: mymove 4s;
+        animation-delay: 1s;
+        animation-fill-mode: forwards;
+        animation-iteration-count: infinite;
+    }
+    #animation {animation-timing-function: ease;}
+    @keyframes mymove {
+        from{left:250px;}
+        to{left:0px;}       /*how to play yazısının hareket etmesini sağlayan animasyon */
+}
+
+    li{
+        color: whitesmoke;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;  
+    }
+
+.game-container {
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: center; 
+  gap: 10px; 
+  align-items:center;
+  position: relative;
+  top:10px;
+ 
+}
+
+.cards-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.card {
+  width: 100px;
+  height: 150px;
+  margin: 10px;
+  background-color: white;
+  color: #FFF;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  font-size: 24px;
+  cursor: pointer;
+  position: relative;
+  border: 4px solid white;
+  border-radius: 8px;
+}
+
+.card.hide {
+  background-color: #000000;
+  color: #000000;
+}
+img {
+  width: 100px;
+  height: 150px;
+}
+
+.startgamebutton{
+    background-color: rgb(2, 255, 2);
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    letter-spacing: -2px;
+}
+.startgamebutton:hover{
+    background-color: aliceblue;
+    border: 6px solid rgb(2, 255, 2);
+}
+.startgamebutton:active {
+  background-color: #ffffff;
+  box-shadow: 0 8px #666;
+  transform: translateY(4px);
+}
+
+.restartbutton{
+    background-color:rgb(255, 116, 116);
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    letter-spacing: -2px;
+}
+.restartbutton:hover{
+    background-color: aliceblue;
+    border: 6px solid rgb(255,116,116);
+}
+.restartbutton:active {
+  background-color: #ffffff;
+  box-shadow: 0 8px #666;
+  transform: translateY(4px);
+}
+.scoreboard{
+    font-size: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 150px;
+    height: 50px;
+    padding: 30px 50px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: #1f044f;
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+</style>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="TermProject.html"> <div><strong> Back to Muhammed's Website</strong></div></a></li>
+        </ul>
+    </nav>
+
+    <h1><strong><img class="memoryImage" src="memoryImage.png" alt="memoryImage">MEMORY GAME</strong></h1>
+    <h2> <div id="animation">How to Play?</div></h2>
+    <p> 
+        <li>When you click the start game button, the cards will shuffle.</li>
+        <li>You will only have 2 seconds to keep in your mind the location of the shuffled cards. Be Careful!</li>
+        <li>You must click the cards in the correct order of the letters in my surname. Correctly following the sequence earns you 100 points.</li>
+        <li>In other words, after the letters are shuffled, you must write ÖZDEMİR by clicking on the letters Ö,Z.D,E,M,İ,R respectively. </li>
+        <li>GOOD LUCK!</li>
+    
+    </p>
+    
+
+<script src="script.js"></script>
+
+<section>
+        <span class="game-containerToolTip"><button class="startgamebutton" id="start">Start Game</button></span>
+        <button class="restartbutton" id="restart">Restart</button>
+        <div class="scoreboard">
+            Score: <span id="score">0</span></div>
+        <div class="game-container"></div>
+
+</section>
+</body>
+</html>
