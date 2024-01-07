@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameInProgress = false;
   
     const filePaths = [    //soyismimin harflerini array olarak atadım.
-        "harfÖ.svg", 
+        "harfO.svg", 
         "harfZ.svg",
         "harfD.svg",
         "harfE.svg",
         "harfM.svg",
-        "harfİ.svg",
+        "harfI.svg",
         "harfR.svg",
     ];
   
