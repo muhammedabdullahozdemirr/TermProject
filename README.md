@@ -1,10 +1,10 @@
-# {{EMOJI}} {{PROJE_ADI}}
+# {{PROJE_ADI}}
 
 > {{KISA_ACIKLAMA}}
 
 <!-- 
 ╔════════════════════════════════════════════════════════════════╗
-║  📝 PttAVM Data Science - README Template                      ║
+║  📝 Data Science - README Template                             ║
 ╠════════════════════════════════════════════════════════════════╣
 ║  KULLANIM:                                                     ║
 ║  1. {{...}} olan yerleri projene göre doldur                   ║
@@ -12,13 +12,6 @@
 ║  3. Bu yorum bloklarını sil                                    ║
 ║  4. Mermaid diagramını düzenle                                 ║
 ╚════════════════════════════════════════════════════════════════╝
-
-EMOJI ÖNERİLERİ:
-🔍 Search/Matching     🏷️ Classification/Labeling
-🧠 NLP/AI Model        📊 Analytics
-🔄 Pipeline/ETL        🚀 API Service
--->
-
 ---
 
 ## 🔄 Pipeline Akışı
@@ -64,7 +57,7 @@ Daha fazla örnek için: /mnt/skills/mermaid_examples.md
 ```
 
 <!-- 
-Projeye göre düzenle. Yukarıdaki standart DS yapısı.
+Projeye göre düzenle.
 Farklı klasörler varsa ekle/çıkar.
 -->
 
@@ -86,7 +79,7 @@ Farklı klasörler varsa ekle/çıkar.
 ## ⚙️ Kurulum
 
 ```bash
-# uv kurulumu (eğer yoksa)
+# uv kurulumu 
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Bağımlılıkları yükle
