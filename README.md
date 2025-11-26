@@ -36,7 +36,7 @@ Alt süreçli:
         B[Temizleme] --> C[Feature Extraction]
     end
 
-Daha fazla örnek için: /mnt/skills/mermaid_examples.md
+Daha fazla örnek için: [/mnt/skills/mermaid_examples.md](https://gitlab.com/gitlab-org/gitlab-foss/-/issues/3711) 
 -->
 
 ---
