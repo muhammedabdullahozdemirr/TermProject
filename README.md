@@ -3,10 +3,20 @@
 > {{KISA_ACIKLAMA}}
 
 <!-- 
-📝 KULLANIM:
-1. {{...}} olan yerleri projene göre doldur
-2. Gerekmeyen bölümleri sil
-3. Mermaid diagramını projenin akışına göre düzenle
+╔════════════════════════════════════════════════════════════════╗
+║  📝 PttAVM Data Science - README Template                      ║
+╠════════════════════════════════════════════════════════════════╣
+║  KULLANIM:                                                     ║
+║  1. {{...}} olan yerleri projene göre doldur                   ║
+║  2. Gerekmeyen bölümleri sil                                   ║
+║  3. Bu yorum bloklarını sil                                    ║
+║  4. Mermaid diagramını düzenle                                 ║
+╚════════════════════════════════════════════════════════════════╝
+
+EMOJI ÖNERİLERİ:
+🔍 Search/Matching     🏷️ Classification/Labeling
+🧠 NLP/AI Model        📊 Analytics
+🔄 Pipeline/ETL        🚀 API Service
 -->
 
 ---
@@ -15,18 +25,24 @@
 
 ```mermaid
 flowchart LR
-    A[({{VERI_KAYNAGI}})] --> B[{{ADIM_1}}]
+    A[({{KAYNAK}})] --> B[{{ADIM_1}}]
     B --> C[{{ADIM_2}}]
     C --> D[{{ADIM_3}}]
-    D --> E[({{CIKTI_HEDEF}})]
+    D --> E[({{HEDEF}})]
 ```
 
 <!-- 
-💡 MERMAID İPUÇLARI:
-- Veritabanı: [(PostgreSQL)]
-- İşlem: [Normalization]
-- Karar: {Validation}
-- Subgraph: subgraph İsim ... end
+MERMAID ÖRNEKLERİ:
+
+Basit akış:
+    A[(PostgreSQL)] --> B[Preprocessing] --> C[Model] --> D[(BigQuery)]
+
+Alt süreçli:
+    subgraph Processing
+        B[Temizleme] --> C[Feature Extraction]
+    end
+
+Daha fazla örnek için: /mnt/skills/mermaid_examples.md
 -->
 
 ---
@@ -35,82 +51,105 @@ flowchart LR
 
 ```
 {{PROJE_ADI}}/
-├── {{KLASOR_1}}/              # {{KLASOR_1_ACIKLAMA}}
-├── {{KLASOR_2}}/              # {{KLASOR_2_ACIKLAMA}}
-├── main.py                    # {{MAIN_ACIKLAMA}}
-├── requirements.txt
-└── README.md
+├── .cicd/                      # Dockerfile
+├── core/
+│   ├── configs/                # config.yml, credentials
+│   ├── process/                # Ana iş mantığı
+│   └── utils/                  # Yardımcı fonksiyonlar
+├── scripts/                    # Build & run scriptleri
+├── main.py                     # CLI entry point (Typer)
+├── {{DAG_DOSYASI}}_dag.py      # Airflow DAG
+├── pyproject.toml
+└── uv.lock
 ```
+
+<!-- 
+Projeye göre düzenle. Yukarıdaki standart DS yapısı.
+Farklı klasörler varsa ekle/çıkar.
+-->
 
 ---
 
 ## 🧩 Ana Bileşenler
 
-- **`{{DOSYA_1}}`** - {{DOSYA_1_ACIKLAMA}}
-- **`{{DOSYA_2}}`** - {{DOSYA_2_ACIKLAMA}}
-- **`{{DOSYA_3}}`** - {{DOSYA_3_ACIKLAMA}}
+- **`main.py`** - CLI komutları (Typer)
+- **`{{PROCESS_DOSYASI}}.py`** - {{PROCESS_ACIKLAMA}}
+- **`config.yml`** - Ortam ayarları (dev/qa/prod)
+
+<!-- 
+Önemli dosyaları ve ne yaptıklarını yaz.
+3-5 madde yeterli.
+-->
 
 ---
 
 ## ⚙️ Kurulum
 
 ```bash
-# Sanal ortam oluştur
-python -m venv .venv
-source .venv/bin/activate  # Windows için: .venv\Scripts\activate
-
-# Gerekli paketleri yükle
-pip install -r requirements.txt
-```
-
-<!-- UV kullanılıyorsa:
-```bash
+# uv kurulumu (eğer yoksa)
 curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Bağımlılıkları yükle
 uv sync
 ```
--->
 
 ---
 
 ## ▶️ Kullanım
 
-{{KULLANIM_ACIKLAMA}}
-
 ```bash
-{{KULLANIM_KOMUTU}}
+# Development ortamında çalıştır
+uv run main.py --env dev {{KOMUT}}
+
+# Production ortamında çalıştır
+uv run main.py --env prod {{KOMUT}}
 ```
 
 <!-- 
-ÖRNEK:
-python main.py --input data/input.csv --output data/output.csv
-uv run main.py --env dev process-all
+TYPER KOMUTLARI:
+Projedeki komutları yaz. Örnek:
+- exact-match-all-categories
+- process-batch
+- train-model
 -->
+
+---
+
+## 🔧 Ortam Ayarları
+
+`config.yml` dosyasında 3 ortam tanımlıdır:
+
+| Ortam | Açıklama |
+|-------|----------|
+| `dev` | Geliştirme ve test |
+| `qa` | QA testleri |
+| `prod` | Production |
 
 ---
 
 ## 🗄️ Gereksinimler
 
-- Python {{PYTHON_VERSION}}+
+- Python 3.12+
+- [uv](https://github.com/astral-sh/uv) package manager
 - {{GEREKSINIM_1}}
 - {{GEREKSINIM_2}}
 
----
-
-## 📊 Çıktılar
-
-<!-- Tablo gerekiyorsa: -->
-| Tablo/Dosya | Açıklama |
-|-------------|----------|
-| `{{CIKTI_1}}` | {{CIKTI_1_ACIKLAMA}} |
-| `{{CIKTI_2}}` | {{CIKTI_2_ACIKLAMA}} |
-
-<!-- veya basitçe: -->
-<!-- Sonuçlar `{{CIKTI_KLASORU}}/` altına yazılır. -->
+<!-- 
+ÖRNEK GEREKSİNİMLER:
+- PostgreSQL erişimi
+- GCP BigQuery erişimi
+- HuggingFace API key
+- OpenAI API key
+-->
 
 ---
 
 ## 📝 Notlar
 
-- {{NOT_1}}
-- {{NOT_2}}
-- Credential dosyaları `.gitignore` ile korunur
+- Credential dosyaları (`.json`) `.gitignore` ile korunur
+- Airflow DAG: `{{DAG_DOSYASI}}_dag.py`
+- {{EKSTRA_NOT}}
+
+<!-- 
+Projeye özel uyarılar, dikkat edilmesi gerekenler vs.
+-->
