@@ -56,6 +56,17 @@ flowchart LR
     D -.->|Context + Reasoning| G
     G --> H
 ```
+```mermaid
+flowchart LR
+    A[Product Image] --> B[Vision ExtractorGPT-4o Vision]
+    C[Product Title] --> D[Text Enricher]
+    B --> D
+    D --> E[OpenAI Embedding]
+    E --> F[(HNSW Index)]
+    F -->|Top-20| G[Reranker]
+    D -.->|Context| G
+    G --> H[Top 5 Prediction]
+```
 <!-- 
 MERMAID ÖRNEKLERİ:
 
