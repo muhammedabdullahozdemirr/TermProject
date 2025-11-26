@@ -1,128 +1,48 @@
-# {{PROJE_ADI}}
+# 🔍 Single Catalog Exact Match
 
-> {{KISA_ACIKLAMA}}
+> PttAVM ürün kataloğundaki duplicate ürünleri tespit edip gruplandıran exact match sistemi.
 
-<!-- 
-╔════════════════════════════════════════════════════════════════╗
-║  📝 Data Science - README Template                             ║
-╠════════════════════════════════════════════════════════════════╣
-║  KULLANIM:                                                     ║
-║  1. {{...}} olan yerleri projene göre doldur                   ║
-║  2. Gerekmeyen bölümleri sil                                   ║
-║  3. Bu yorum bloklarını sil                                    ║
-║  4. Mermaid diagramını düzenle                                 ║
-╚════════════════════════════════════════════════════════════════╝
--->
 ---
 
 ## 🔄 Pipeline Akışı
 
-```mermaid
-flowchart LR
-    A[(PostgreSQL)] --> B[Veri Çekme]
-    B --> C[Preprocessing]
-    C --> D[Model/İşlem]
-    D --> E[(BigQuery)]
-```
-```mermaid
-flowchart LR
-    subgraph Input["📥 Girdi"]
-        A[Product Image]
-        B[Product Title<br/>& Raw Data]
-    end
-
-    subgraph Processing["⚙️ İşleme"]
-        C[Vision Extractor<br/>GPT-4o Vision]
-        D[Text Enricher<br/>& Standardizer]
-    end
-
-    subgraph Embedding["🔢 Embedding"]
-        E[OpenAI Embedding<br/>text-embedding-3]
-        F[(HNSW Vector Index<br/>Category DB)]
-    end
-
-    subgraph Ranking["🎯 Sıralama"]
-        G[Hierarchical Reranker<br/>Top 5 Selection]
-    end
-
-    subgraph Output["📤 Çıktı"]
-        H[/Final Top 5<br/>Prediction/]
-    end
-
-    A --> C --> D
-    B --> D
-    D --> E --> F
-    F -->|Top-20 Candidates| G
-    D -.->|Context + Reasoning| G
-    G --> H
-```
-```mermaid
-flowchart LR
-    A[Product Image] --> B[Vision ExtractorGPT-4o Vision]
-    C[Product Title] --> D[Text Enricher]
-    B --> D
-    D --> E[OpenAI Embedding]
-    E --> F[(HNSW Index)]
-    F -->|Top-20| G[Reranker]
-    D -.->|Context| G
-    G --> H[Top 5 Prediction]
-```
-<!-- 
-MERMAID ÖRNEKLERİ:
-
-Basit akış:
-    A[(PostgreSQL)] --> B[Preprocessing] --> C[Model] --> D[(BigQuery)]
-
-Alt süreçli:
-    subgraph Processing
-        B[Temizleme] --> C[Feature Extraction]
-    end
-
-Daha fazla örnek için: [/mnt/skills/mermaid_examples.md](https://gitlab.com/gitlab-org/gitlab-foss/-/issues/3711) 
--->
+![SC Exact Match Pipeline](docs/images/pipeline_flow.png)
 
 ---
 
 ## 📁 Proje Yapısı
 
 ```
-{{PROJE_ADI}}/
+single_catalog_exact_matching/
 ├── .cicd/                      # Dockerfile
 ├── core/
-│   ├── configs/                # config.yml, credentials
-│   ├── process/                # Ana iş mantığı
-│   └── utils/                  # Yardımcı fonksiyonlar
-├── scripts/                    # Build & run scriptleri
+│   ├── configs/                # config.yml, project_configs.py
+│   ├── process/                # main_process.py, send_to_api.py
+│   ├── product_req/            # Notebooks
+│   └── utils/
+│       └── db_connectors/      # gcp_conn.py, postgres_conn.py
+├── scripts/                    # prod-build.sh, prod-run.sh
 ├── main.py                     # CLI entry point (Typer)
-├── {{DAG_DOSYASI}}_dag.py      # Airflow DAG
+├── sc_exactmatch_dag.py        # Airflow DAG
 ├── pyproject.toml
 └── uv.lock
 ```
-
-<!-- 
-Projeye göre düzenle.
-Farklı klasörler varsa ekle/çıkar.
--->
 
 ---
 
 ## 🧩 Ana Bileşenler
 
-- **`main.py`** - CLI komutları (Typer)
-- **`{{PROCESS_DOSYASI}}.py`** - {{PROCESS_ACIKLAMA}}
-- **`config.yml`** - Ortam ayarları (dev/qa/prod)
-
-<!-- 
-Önemli dosyaları ve ne yaptıklarını yaz.
-3-5 madde yeterli.
--->
+- **`main.py`** - CLI komutları (Typer): `exact-match-all-categories`, `exact-match-category-list`
+- **`main_process.py`** - Tüm veri işleme süreci ve loglama
+- **`project_configs.py`** - Ortam konfigürasyonu (dev/qa/prod)
+- **`db_connectors/`** - PostgreSQL ve BigQuery bağlantıları
 
 ---
 
 ## ⚙️ Kurulum
 
 ```bash
-# uv kurulumu 
+# uv kurulumu (eğer yoksa)
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Bağımlılıkları yükle
@@ -135,19 +55,11 @@ uv sync
 
 ```bash
 # Development ortamında çalıştır
-uv run main.py --env dev {{KOMUT}}
+uv run main.py --env dev exact-match-category-list
 
 # Production ortamında çalıştır
-uv run main.py --env prod {{KOMUT}}
+uv run main.py --env prod exact-match-all-categories
 ```
-
-<!-- 
-TYPER KOMUTLARI:
-Projedeki komutları yaz. Örnek:
-- exact-match-all-categories
-- process-batch
-- train-model
--->
 
 ---
 
@@ -167,25 +79,13 @@ Projedeki komutları yaz. Örnek:
 
 - Python 3.12+
 - [uv](https://github.com/astral-sh/uv) package manager
-- {{GEREKSINIM_1}}
-- {{GEREKSINIM_2}}
-
-<!-- 
-ÖRNEK GEREKSİNİMLER:
 - PostgreSQL erişimi
 - GCP BigQuery erişimi
-- HuggingFace API key
-- OpenAI API key
--->
 
 ---
 
 ## 📝 Notlar
 
 - Credential dosyaları (`.json`) `.gitignore` ile korunur
-- Airflow DAG: `{{DAG_DOSYASI}}_dag.py`
-- {{EKSTRA_NOT}}
-
-<!-- 
-Projeye özel uyarılar, dikkat edilmesi gerekenler vs.
--->
+- Airflow DAG: `sc_exactmatch_dag.py` (KubernetesPodOperator)
+- BigQuery tabloları: `all_matches`, `grouped_output`, `log_matches`
