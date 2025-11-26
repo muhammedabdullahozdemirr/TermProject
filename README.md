@@ -19,10 +19,10 @@
 
 ```mermaid
 flowchart LR
-    A[({{KAYNAK}})] --> B[{{ADIM_1}}]
-    B --> C[{{ADIM_2}}]
-    C --> D[{{ADIM_3}}]
-    D --> E[({{HEDEF}})]
+    A[(PostgreSQL)] --> B[Veri Çekme]
+    B --> C[Preprocessing]
+    C --> D[Model/İşlem]
+    D --> E[(BigQuery)]
 ```
 
 <!-- 
