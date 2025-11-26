@@ -24,7 +24,38 @@ flowchart LR
     C --> D[Model/İşlem]
     D --> E[(BigQuery)]
 ```
+```mermaid
+flowchart LR
+    subgraph Input["📥 Girdi"]
+        A[Product Image]
+        B[Product Title<br/>& Raw Data]
+    end
 
+    subgraph Processing["⚙️ İşleme"]
+        C[Vision Extractor<br/>GPT-4o Vision]
+        D[Text Enricher<br/>& Standardizer]
+    end
+
+    subgraph Embedding["🔢 Embedding"]
+        E[OpenAI Embedding<br/>text-embedding-3]
+        F[(HNSW Vector Index<br/>Category DB)]
+    end
+
+    subgraph Ranking["🎯 Sıralama"]
+        G[Hierarchical Reranker<br/>Top 5 Selection]
+    end
+
+    subgraph Output["📤 Çıktı"]
+        H[/Final Top 5<br/>Prediction/]
+    end
+
+    A --> C --> D
+    B --> D
+    D --> E --> F
+    F -->|Top-20 Candidates| G
+    D -.->|Context + Reasoning| G
+    G --> H
+```
 <!-- 
 MERMAID ÖRNEKLERİ:
 
