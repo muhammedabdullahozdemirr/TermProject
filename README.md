@@ -1,6 +1,13 @@
-# 🔍 Single Catalog Exact Match
+# {{EMOJI}} {{PROJE_ADI}}
 
-> PttAVM ürün kataloğundaki duplicate ürünleri tespit edip gruplandıran exact match sistemi.
+> {{KISA_ACIKLAMA}}
+
+<!-- 
+📝 KULLANIM:
+1. {{...}} olan yerleri projene göre doldur
+2. Gerekmeyen bölümleri sil
+3. Mermaid diagramını projenin akışına göre düzenle
+-->
 
 ---
 
@@ -8,80 +15,102 @@
 
 ```mermaid
 flowchart LR
-    A[(PostgreSQL)] --> B[Batch Ayırma<br/>max 100K]
-    B --> C[Normalization]
-    C --> D[Exact Match]
-    D --> E[Union-Find<br/>Clustering]
-    E --> F[(BigQuery)]
+    A[({{VERI_KAYNAGI}})] --> B[{{ADIM_1}}]
+    B --> C[{{ADIM_2}}]
+    C --> D[{{ADIM_3}}]
+    D --> E[({{CIKTI_HEDEF}})]
 ```
+
+<!-- 
+💡 MERMAID İPUÇLARI:
+- Veritabanı: [(PostgreSQL)]
+- İşlem: [Normalization]
+- Karar: {Validation}
+- Subgraph: subgraph İsim ... end
+-->
 
 ---
 
 ## 📁 Proje Yapısı
 
 ```
-single_catalog_exact_matching/
-├── .cicd/                      # Dockerfile
-├── core/
-│   ├── configs/                # config.yml, project_configs.py
-│   ├── process/                # main_process.py, send_to_api.py
-│   ├── product_req/            # Notebooks
-│   └── utils/
-│       └── db_connectors/      # gcp_conn.py, postgres_conn.py
-├── scripts/                    # prod-build.sh, prod-run.sh
-├── main.py                     # CLI entry point (Typer)
-├── sc_exactmatch_dag.py        # Airflow DAG
-├── pyproject.toml
-└── uv.lock
+{{PROJE_ADI}}/
+├── {{KLASOR_1}}/              # {{KLASOR_1_ACIKLAMA}}
+├── {{KLASOR_2}}/              # {{KLASOR_2_ACIKLAMA}}
+├── main.py                    # {{MAIN_ACIKLAMA}}
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
 ## 🧩 Ana Bileşenler
 
-- **`main.py`** - CLI komutları (Typer): `exact-match-all-categories`, `exact-match-category-list`
-- **`main_process.py`** - Tüm veri işleme süreci ve loglama
-- **`project_configs.py`** - Ortam konfigürasyonu (dev/qa/prod)
-- **`db_connectors/`** - PostgreSQL ve BigQuery bağlantıları
+- **`{{DOSYA_1}}`** - {{DOSYA_1_ACIKLAMA}}
+- **`{{DOSYA_2}}`** - {{DOSYA_2_ACIKLAMA}}
+- **`{{DOSYA_3}}`** - {{DOSYA_3_ACIKLAMA}}
 
 ---
 
 ## ⚙️ Kurulum
 
 ```bash
-# uv kurulumu
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# Sanal ortam oluştur
+python -m venv .venv
+source .venv/bin/activate  # Windows için: .venv\Scripts\activate
 
-# Ortam senkronizasyonu
+# Gerekli paketleri yükle
+pip install -r requirements.txt
+```
+
+<!-- UV kullanılıyorsa:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync
 ```
+-->
 
 ---
 
 ## ▶️ Kullanım
 
-```bash
-# Development
-uv run main.py --env dev exact-match-category-list
+{{KULLANIM_ACIKLAMA}}
 
-# Production
-uv run main.py --env prod exact-match-all-categories
+```bash
+{{KULLANIM_KOMUTU}}
 ```
+
+<!-- 
+ÖRNEK:
+python main.py --input data/input.csv --output data/output.csv
+uv run main.py --env dev process-all
+-->
 
 ---
 
-## 📊 Çıktılar (BigQuery)
+## 🗄️ Gereksinimler
 
-| Tablo | Açıklama |
-|-------|----------|
-| `all_matches` | Tüm eşleşmeler |
-| `grouped_output` | Cluster sonuçları |
-| `log_matches` | İşlem logları |
+- Python {{PYTHON_VERSION}}+
+- {{GEREKSINIM_1}}
+- {{GEREKSINIM_2}}
+
+---
+
+## 📊 Çıktılar
+
+<!-- Tablo gerekiyorsa: -->
+| Tablo/Dosya | Açıklama |
+|-------------|----------|
+| `{{CIKTI_1}}` | {{CIKTI_1_ACIKLAMA}} |
+| `{{CIKTI_2}}` | {{CIKTI_2_ACIKLAMA}} |
+
+<!-- veya basitçe: -->
+<!-- Sonuçlar `{{CIKTI_KLASORU}}/` altına yazılır. -->
 
 ---
 
 ## 📝 Notlar
 
-- `config.yml` → dev, qa, prod ortamları
-- Airflow DAG: `sc_exactmatch_dag.py` (KubernetesPodOperator)
+- {{NOT_1}}
+- {{NOT_2}}
 - Credential dosyaları `.gitignore` ile korunur
